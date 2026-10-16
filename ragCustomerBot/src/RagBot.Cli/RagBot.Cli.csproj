@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\RagBot.Core\RagBot.Core.csproj" />
+    <ProjectReference Include="..\RagBot.Pinecone\RagBot.Pinecone.csproj" />
+    <ProjectReference Include="..\RagBot.OpenAI\RagBot.OpenAI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.13" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- Configuración, reglas del bot y preguntas de evaluación viajan junto al ejecutable. -->
+  <ItemGroup>
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.Local.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.Local.example.json" CopyToOutputDirectory="Never" />
+    <None Include="..\..\prompts\*.md" Link="prompts\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\eval\*.json" Link="eval\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

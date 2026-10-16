@@ -1,0 +1,10 @@
+[
+  { "question": "me rechazan la tarjeta aunque tengo saldo", "expectedDocs": ["KB-01"] },
+  { "question": "puedo usar la tarjeta en Estados Unidos sin activar nada", "expectedDocs": ["KB-02"] },
+  { "question": "el lector no detecta el QR del PIX", "expectedDocs": ["KB-03"] },
+  { "question": "cuándo me pagan los intereses de mis dólares", "expectedDocs": ["KB-04"] },
+  { "question": "me cobraron algo que no autoricé", "expectedDocs": ["KB-05"] },
+  { "question": "dónde descargo el certificado para mi declaración de renta", "expectedDocs": ["KB-06"] },
+  { "question": "cómo cambio mi número de teléfono registrado", "expectedDocs": ["KB-07"] },
+  { "question": "cuándo me pasan con una persona", "expectedDocs": ["KB-08"] }
+]

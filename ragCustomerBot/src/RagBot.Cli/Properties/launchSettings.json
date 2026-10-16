@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "chat": {
+      "commandName": "Project"
+    },
+    "chat (con debug)": {
+      "commandName": "Project",
+      "commandLineArgs": "chat --debug"
+    },
+    "ask (una pregunta)": {
+      "commandName": "Project",
+      "commandLineArgs": "ask \"me rechazan la tarjeta aunque tengo saldo, que reviso?\" --debug"
+    },
+    "eval": {
+      "commandName": "Project",
+      "commandLineArgs": "eval"
+    }
+  }
+}

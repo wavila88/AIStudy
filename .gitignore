@@ -1,0 +1,79 @@
+# ===== Secretos y credenciales =====
+# Nunca subir claves de API ni archivos de entorno reales.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+secrets.json
+appsettings.Local.json
+appsettings.*.Local.json
+# Red de seguridad por si el nombre se escribe mal (p. ej. "appsettings.Local..json" o "appsettings.Local.json.bak")
+appsettings.Local*
+!appsettings.Local.example.json
+
+# ===== .NET (ragIngest y ragCustomerBot) =====
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+*.rsuser
+*.DotSettings.user
+TestResults/
+*.trx
+*.nupkg
+*.snupkg
+.nuget/
+# Salida de publicación y de benchmarks
+publish/
+artifacts/
+BenchmarkDotNet.Artifacts/
+# Cobertura de pruebas
+coverage/
+*.coverage
+*.coveragexml
+*.cobertura.xml
+# Datos locales del flujo de trabajo con el agente (ledger, notas)
+.superpowers/
+
+# ===== ragCustomerBot: archivos que genera el bot al usarse =====
+# Resultados del modo eval (las preguntas eval/questions.json SÍ se versionan)
+**/eval/results/
+**/eval/*.out.json
+# Transcripciones de chat: pueden contener datos reales de clientes
+chat-logs/
+transcripts/
+*.jsonl
+
+# ===== Python (pinneconeDemo) =====
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ===== Editores y herramientas =====
+.vscode/
+.idea/
+.claude/settings.local.json
+
+# ===== Sistema operativo =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Archivos temporales de Office =====
+# Archivos de bloqueo que Word crea mientras un .docx está abierto
+~$*
+*.tmp
+
+# ===== Logs =====
+*.log
