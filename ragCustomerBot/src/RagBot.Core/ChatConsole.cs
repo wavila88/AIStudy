@@ -21,8 +21,9 @@ public static class AnswerPrinter
                 .Select(g => $"{g.Key} ({F(g.Max(c => c.Score))})");
             output.WriteLine($"Fuentes: {string.Join(", ", sources)}");
         }
-        else
+        else if (debug)
         {
+            // Dato técnico: útil para quien depura, ruido para quien chatea.
             var best = answer.Retrieved.Count > 0 ? F(answer.Retrieved[0].Score) : "sin resultados";
             output.WriteLine($"(No se llamó al modelo: la mejor puntuación fue {best}, por debajo del mínimo {F(options.MinScore)}.)");
         }

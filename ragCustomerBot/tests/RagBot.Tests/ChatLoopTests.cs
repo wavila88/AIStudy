@@ -151,8 +151,24 @@ public class ChatLoopTests
         Assert.Equal(0, model.Calls);
         var text = output.ToString();
         Assert.Contains("SIN INFORMACION", text);
+        // La nota técnica es para depurar: el usuario normal solo ve el mensaje amable.
+        Assert.DoesNotContain("No se llamó al modelo", text);
+        Assert.DoesNotContain("0.12", text);
+    }
+
+    [Fact]
+    public async Task Debug_mode_explains_why_the_model_was_not_called()
+    {
+        var (loop, output, _, model) = Build(new[] { "receta de pizza", "/salir" }, new[] { Chunk(0.12) });
+
+        await loop.RunAsync(debug: true, banner: "");
+
+        Assert.Equal(0, model.Calls);
+        var text = output.ToString();
+        Assert.Contains("SIN INFORMACION", text);
         Assert.Contains("No se llamó al modelo", text);
         Assert.Contains("0.12", text);
+        Assert.Contains("0.30", text);
     }
 
     [Fact]

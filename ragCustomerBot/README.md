@@ -91,7 +91,7 @@ Las **reglas** van siempre en el prompt de sistema y no se recuperan por búsque
 | `Chat:MinScore` | `0.30` | **Provisional.** Se calibra con el modo `eval` |
 | `Chat:HistoryTurns` | `6` | Turnos de historial que se envían |
 | `Chat:SystemPromptPath` | `prompts/system.es.md` | Reglas de la empresa |
-| `Chat:NoAnswerMessage` | texto fijo | Respuesta cuando no hay información suficiente |
+| `Chat:NoAnswerMessage` | "Entendido. En seguida te comunico con un agente de servicio al cliente…" | Respuesta cuando ninguna guía se parece lo bastante: se trata como un traspaso a una persona. La nota técnica con la puntuación solo se muestra con `/debug` |
 
 ### Claves (nunca en git)
 Copia la plantilla y pega tus claves:

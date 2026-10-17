@@ -25,7 +25,7 @@ public sealed class ChatOptions
     public int HistoryTurns { get; set; } = 6;
 
     public string NoAnswerMessage { get; set; } =
-        "No tengo información suficiente para responder eso. Te paso con una persona del equipo para que te ayude.";
+        "Entendido. En seguida te comunico con un agente de servicio al cliente para que te ayude con esto.";
 }
 
 /// <param name="Text">Lo que se le muestra al cliente.</param>
@@ -132,6 +132,7 @@ public static class PromptBuilder
         user.Append(LanguageReminder);
 
         var messages = new List<ChatMessage> { new("system", rules) };
+        //Agrega historia para que la ia recuerde 
         foreach (var turn in history ?? Array.Empty<ChatTurn>())
         {
             messages.Add(new ChatMessage("user", turn.User));
