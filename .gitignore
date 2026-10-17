@@ -13,20 +13,54 @@ appsettings.*.Local.json
 appsettings.Local*
 !appsettings.Local.example.json
 
-# ===== .NET (ragIngest y ragCustomerBot) =====
+# ===== .NET (ragIngest, ragCustomerBot y botSemanticKernel) =====
+# Compilación: lo genera `dotnet build`, nunca se sube
 bin/
 obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.pdb
+*.obj
+*.rsp
+*.tlog
+*.binlog
+*.cache
+*.tmp_proj
+*_wpftmp.csproj
+msbuild.log
+msbuild.err
+msbuild.wrn
+# Visual Studio: configuración y caché personal de cada máquina
 .vs/
+.vscode/
 *.user
+*.userosscache
 *.suo
 *.userprefs
 *.rsuser
+*.sln.docstates
+*.vsidx
+*.VC.db
+*.VC.VC.opendb
+*.sdf
+*.opensdf
+ipch/
+.ionide/
+_ReSharper*/
+*.[Rr]e[Ss]harper
 *.DotSettings.user
+.JustCode
+# Pruebas
 TestResults/
+[Tt]est[Rr]esult*/
 *.trx
+# Paquetes
 *.nupkg
 *.snupkg
 .nuget/
+packages/
 # Salida de publicación y de benchmarks
 publish/
 artifacts/
