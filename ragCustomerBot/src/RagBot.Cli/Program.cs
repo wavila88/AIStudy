@@ -110,7 +110,8 @@ try
     var rules = File.ReadAllText(promptPath);
 
     using var openaiHttp = OpenAIHttp.CreateClient(openai);
-    var service = new ChatService(retriever, new OpenAIChatModel(openaiHttp, openai), rules, chat);
+    var chatModel = new OpenAIChatModel(openaiHttp, openai);
+    var service = new ChatService(retriever, chatModel, rules, chat, new LanguageDetector(chatModel));
     var info = $"({pinecone.IndexName}/{ns} · modelo {openai.Model} · top {chat.TopK} · mínimo {F(chat.MinScore)})";
 
     if (command == "chat")

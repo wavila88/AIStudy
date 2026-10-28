@@ -46,6 +46,42 @@ public class MemoryTests
         return new ChatLoop(service, Rules, Options(historyTurns), output, () => lines.Count > 0 ? lines.Dequeue() : null);
     }
 
+    // ---------------------------------------------------------------- idioma
+    [Fact]
+    public async Task Detected_language_is_named_explicitly_at_the_end_of_the_final_message()
+    {
+        // 1.ª llamada: detector de idioma; 2.ª: respuesta
+        var model = new RecordingModel("English", "ok");
+        var service = new ChatService(new FakeRetriever(Chunk()), model, Rules, Options(), new LanguageDetector(model));
+
+        await service.AskAsync("Help me to block my card");
+
+        Assert.Equal(LanguageDetector.Instructions, model.Calls[0][0].Content);
+        Assert.Equal("Help me to block my card", model.Calls[0][1].Content);
+        Assert.EndsWith("Write your ENTIRE reply in English.", model.Calls[1][^1].Content.TrimEnd());
+    }
+
+    [Fact]
+    public async Task Language_detector_is_not_called_when_there_is_no_context_to_answer_with()
+    {
+        var model = new RecordingModel();
+        var service = new ChatService(new FakeRetriever(Chunk(score: 0.1)), model, Rules, Options(), new LanguageDetector(model));
+
+        await service.AskAsync("Help me to block my card");
+
+        Assert.Empty(model.Calls);
+    }
+
+    [Theory]
+    [InlineData("English", "English")]
+    [InlineData("  Spanish.\n", "Spanish")]
+    [InlineData("Portuguese", "Portuguese")]
+    [InlineData("The language is English, I think", null)]
+    [InlineData("", null)]
+    [InlineData(null, null)]
+    public void Language_detector_keeps_only_a_clean_language_name(string? output, string? expected) =>
+        Assert.Equal(expected, LanguageDetector.Clean(output));
+
     // ---------------------------------------------------------------- reescritura
     [Fact]
     public void Rewrite_prompt_carries_the_previous_turns_and_the_last_question()
@@ -139,7 +175,7 @@ public class MemoryTests
             .AskAsync("¿y en dólares?", new[] { new ChatTurn("a", "b") });
 
         var user = model.Calls[1][^1].Content;
-        Assert.Contains("interpretada como", user);
+        Assert.Contains("Interpretation in context", user);
         Assert.Contains("¿cómo pago en dólares en Brasil?", user);
     }
 
@@ -151,7 +187,7 @@ public class MemoryTests
         await Service(new FakeRetriever(Chunk()), model)
             .AskAsync("¿puedo usar la tarjeta en Chile?", new[] { new ChatTurn("a", "b") });
 
-        Assert.DoesNotContain("interpretada como", model.Calls[1][^1].Content);
+        Assert.DoesNotContain("Interpretation in context", model.Calls[1][^1].Content);
     }
 
     [Fact]
