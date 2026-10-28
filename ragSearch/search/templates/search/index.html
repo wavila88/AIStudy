@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Búsqueda semántica</title>
+  <style>
+    :root { --bg: #f6f7f9; --card: #fff; --text: #1d2330; --muted: #5d6677; --accent: #2457d6; --error: #b3261e; --border: #d9dde5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #14171d; --card: #1d2230; --text: #e8ebf2; --muted: #9aa3b5; --accent: #7aa2ff; --error: #ff8a80; --border: #343b4d; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; line-height: 1.5; }
+    main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+    h1 { font-size: 1.5rem; margin: 0 0 16px; }
+    textarea { width: 100%; min-height: 140px; padding: 12px; font: inherit; color: var(--text); background: var(--card); border: 1px solid var(--border); border-radius: 8px; resize: vertical; }
+    button { margin-top: 12px; padding: 10px 20px; font: inherit; color: #fff; background: var(--accent); border: 0; border-radius: 8px; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .loading { margin-left: 12px; color: var(--muted); }
+    .loading[hidden] { display: none; }
+    .spinner { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { color: var(--error); margin-top: 12px; }
+    .muted { color: var(--muted); }
+    #results { margin-top: 24px; display: grid; gap: 12px; }
+    .result { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .85rem; color: var(--muted); margin-bottom: 6px; }
+    .result p { margin: 0; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Búsqueda semántica</h1>
+
+  <form id="search-form" method="post">
+    {% csrf_token %}
+    <textarea name="query" data-testid="query-input" placeholder="Escribe tu consulta…" aria-label="Consulta">{{ query }}</textarea>
+    <button type="submit" data-testid="search-button">Buscar</button>
+    <span data-testid="loading" class="loading" hidden><span class="spinner"></span> Buscando…</span>
+  </form>
+
+  {% if form.errors %}
+    <div class="error" data-testid="form-error">{% for error in form.query.errors %}{{ error }} {% endfor %}</div>
+  {% endif %}
+
+  {% if service_error %}
+    <div class="error" data-testid="service-error">No pudimos completar la búsqueda en este momento. Intenta de nuevo en unos minutos.</div>
+  {% endif %}
+
+  {% if no_results %}
+    <p class="muted" data-testid="no-results">No se encontraron resultados.</p>
+  {% endif %}
+
+  {% if results %}
+    <section id="results" data-testid="results">
+      {% for r in results %}
+        <article class="result" data-testid="result-item">
+          <div class="meta">
+            <span data-testid="result-doc">{{ r.doc_id }}</span>
+            {% if r.section %}<span data-testid="result-section">{{ r.section }}</span>{% endif %}
+            <span data-testid="result-score">{{ r.score|floatformat:2 }}</span>
+          </div>
+          <p data-testid="result-text">{{ r.text }}</p>
+        </article>
+      {% endfor %}
+    </section>
+  {% endif %}
+</main>
+<script>
+  // Loading state: the page is server-rendered, so this just shows feedback until the response arrives.
+  (function () {
+    var form = document.getElementById("search-form");
+    if (!form) return;
+    form.addEventListener("submit", function () {
+      var button = form.querySelector("[data-testid='search-button']");
+      var loading = document.querySelector("[data-testid='loading']");
+      if (button) button.disabled = true;
+      if (loading) loading.hidden = false;
+    });
+  })();
+</script>
+</body>
+</html>
