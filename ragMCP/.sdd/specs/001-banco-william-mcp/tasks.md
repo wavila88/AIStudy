@@ -15,10 +15,10 @@ Manual check: `dotnet build RagMcp.sln` y `dotnet test RagMcp.sln` en verde; `ap
 Test: `tests/RagMcp.Tests/ServerSmokeTests.cs` — el servidor registra la herramienta `buscar_guias` y al invocarla con una pregunta devuelve la respuesta fija del esqueleto.
 Manual check: `claude mcp add banco-william -- dotnet run --project src/RagMcp.Server`; `/mcp` en Claude Code muestra el servidor conectado con la herramienta `buscar_guias`, y al pedírselo la invoca.
 
-- [ ] 2.1 Failing test — result: ________
-- [ ] 2.2 Implementation — files: ________ (paquete `ModelContextProtocol`, host con transporte stdio, herramienta `buscar_guias` con respuesta fija)
-- [ ] 2.3 Passing test — result: ________
-- [ ] 2.4 Developer approval
+- [x] 2.1 Failing test — result: FAILED: `error CS0234: The type or namespace name 'Server' does not exist in the namespace 'RagMcp'` (compilación roja, `BuscarGuiasTool` no existía)
+- [x] 2.2 Implementation — files: `src/RagMcp.Server/{BuscarGuiasTool.cs,Program.cs,RagMcp.Server.csproj}` (paquetes `ModelContextProtocol` 2.3.0 y `Microsoft.Extensions.Hosting` 8.0.1), `tests/RagMcp.Tests/{ServerSmokeTests.cs,RagMcp.Tests.csproj}` (referencia a Server)
+- [x] 2.3 Passing test — result: `Passed! Failed: 0, Passed: 4, Total: 4` (net8.0). Además, handshake real por stdin: `initialize`, `tools/list` y `tools/call` responden bien y stdout solo lleva JSON del protocolo.
+- [x] 2.4 Developer approval
 
 ## Phase 3 — `buscar_guias` consulta Pinecone y devuelve fragmentos con su id (covers HP-1)
 Test: `tests/RagMcp.Tests/PineconeRetrieverTests.cs` y `BuscarGuiasTests.cs` — con Pinecone simulado, se hace el embedding (`input_type=query`) y la consulta con `topK` y `namespace`; la herramienta devuelve id, puntuación y texto de cada fragmento.
