@@ -1,0 +1,48 @@
+# ===== Secretos y credenciales =====
+# Nunca subir claves de API ni archivos de entorno reales.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+secrets.json
+appsettings.Local.json
+appsettings.*.Local.json
+# Red de seguridad por si el nombre se escribe mal (p. ej. "appsettings.Local.json.bak")
+appsettings.Local*
+!appsettings.Local.example.json
+
+# ===== .NET =====
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.pdb
+*.binlog
+msbuild.log
+publish/
+artifacts/
+
+# ===== Pruebas y cobertura =====
+TestResults/
+*.trx
+coverage/
+*.coverage
+*.cobertura.xml
+
+# ===== Editores y herramientas =====
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+.claude/settings.local.json
+
+# ===== Sistema operativo y logs =====
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

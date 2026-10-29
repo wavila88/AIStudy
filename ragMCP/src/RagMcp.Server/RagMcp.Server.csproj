@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RagMcp.Core\RagMcp.Core.csproj" />
+  </ItemGroup>
+
+  <!-- La configuración viaja junto al ejecutable; la local (con claves) nunca se versiona. -->
+  <ItemGroup>
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.Local.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="appsettings.Local.example.json" CopyToOutputDirectory="Never" />
+  </ItemGroup>
+
+</Project>
