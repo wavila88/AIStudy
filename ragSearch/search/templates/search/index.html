@@ -22,6 +22,9 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .error { color: var(--error); margin-top: 12px; }
     .muted { color: var(--muted); }
+    .clear { display: inline-block; margin: 12px 0 0 8px; padding: 10px 20px; color: #fff; background: #6b7280; border-radius: 8px; text-decoration: none; }
+    .clear[hidden] { display: none; }
+    .clear:hover { background: #565c68; }
     #results { margin-top: 24px; display: grid; gap: 12px; }
     .result { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
     .meta { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .85rem; color: var(--muted); margin-bottom: 6px; }
@@ -36,6 +39,7 @@
     {% csrf_token %}
     <textarea name="query" data-testid="query-input" placeholder="Escribe tu consulta…" aria-label="Consulta">{{ query }}</textarea>
     <button type="submit" data-testid="search-button">Buscar</button>
+    {% if results %}<a href="." class="clear" data-testid="clear-button">Limpiar</a>{% endif %}
     <span data-testid="loading" class="loading" hidden><span class="spinner"></span> Buscando…</span>
   </form>
 
@@ -76,6 +80,8 @@
       var loading = document.querySelector("[data-testid='loading']");
       if (button) button.disabled = true;
       if (loading) loading.hidden = false;
+      var clear = document.querySelector("[data-testid='clear-button']");
+      if (clear) clear.hidden = true;
     });
   })();
 </script>

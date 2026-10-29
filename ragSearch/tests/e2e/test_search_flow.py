@@ -11,6 +11,8 @@ window.addEventListener("beforeunload", () => {
   const button = document.querySelector("[data-testid='search-button']");
   const ok = !!loading && !loading.hidden && !!button && button.disabled;
   sessionStorage.setItem("loadingAtSubmit", String(ok));
+  const clear = document.querySelector("[data-testid='clear-button']");
+  sessionStorage.setItem("clearHiddenAtSubmit", String(!clear || clear.hidden));
 });
 """
 
@@ -45,3 +47,29 @@ def test_search_returns_three_ranked_results(page, app_url):
 
     assert scores == sorted(scores, reverse=True), f"scores not in descending order: {scores}"
     assert any(EXPECTED_DOC in d for d in docs), f"{EXPECTED_DOC} not among {docs}"
+
+    # Clear search: with results on screen "Limpiar" is shown.
+    clear = page.get_by_test_id("clear-button")
+    expect(clear).to_be_visible()
+
+    # While a new search is in progress "Limpiar" is hidden (checked at the moment of submit).
+    page.get_by_test_id("search-button").click()
+    expect(page.get_by_test_id("results")).to_be_visible(timeout=30_000)
+    assert page.evaluate("sessionStorage.getItem('clearHiddenAtSubmit')") == "true"
+
+    # Pressing "Limpiar" returns to the initial page.
+    page.get_by_test_id("clear-button").click()
+
+    expect(page.get_by_test_id("results")).to_have_count(0)
+    expect(page.get_by_test_id("query-input")).to_have_value("")
+    expect(page.get_by_test_id("clear-button")).to_have_count(0)
+
+    # Empty and over-limit queries end in a validation message, never with "Limpiar".
+    page.get_by_test_id("search-button").click()
+    expect(page.get_by_test_id("form-error")).to_be_visible()
+    expect(page.get_by_test_id("clear-button")).to_have_count(0)
+
+    page.get_by_test_id("query-input").fill("x" * 101)
+    page.get_by_test_id("search-button").click()
+    expect(page.get_by_test_id("form-error")).to_be_visible()
+    expect(page.get_by_test_id("clear-button")).to_have_count(0)
