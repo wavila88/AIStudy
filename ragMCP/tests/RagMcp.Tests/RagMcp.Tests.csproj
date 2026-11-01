@@ -22,9 +22,15 @@
     <None Include="..\..\src\RagMcp.Server\appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- Pruebas de integración: usan la clave local si existe (appsettings.Local.json está ignorado por git). -->
+  <ItemGroup>
+    <None Include="..\..\src\RagMcp.Server\appsettings.Local.json" Link="appsettings.Local.json" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\src\RagMcp.Server\appsettings.Local.json')" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\RagMcp.Core\RagMcp.Core.csproj" />
     <ProjectReference Include="..\..\src\RagMcp.Server\RagMcp.Server.csproj" />
+    <ProjectReference Include="..\..\src\RagMcp.Pinecone\RagMcp.Pinecone.csproj" />
   </ItemGroup>
 
 </Project>

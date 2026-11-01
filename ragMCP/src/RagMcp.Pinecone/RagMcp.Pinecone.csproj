@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\RagMcp.Core\RagMcp.Core.csproj" />
+  </ItemGroup>
+
+</Project>

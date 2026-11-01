@@ -13,6 +13,8 @@ public class PineconeOptions
     public string Namespace { get; set; } = "";
     public string EmbeddingModel { get; set; } = "";
     public int Dimension { get; set; }
+    public string ApiVersion { get; set; } = "2025-04";
+    public string ControlPlaneUrl { get; set; } = "https://api.pinecone.io";
 }
 
 public class SearchOptions

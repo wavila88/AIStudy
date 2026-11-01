@@ -24,9 +24,9 @@ Manual check: `claude mcp add banco-william -- dotnet run --project src/RagMcp.S
 Test: `tests/RagMcp.Tests/PineconeRetrieverTests.cs` y `BuscarGuiasTests.cs` — con Pinecone simulado, se hace el embedding (`input_type=query`) y la consulta con `topK` y `namespace`; la herramienta devuelve id, puntuación y texto de cada fragmento.
 Manual check: con claves reales en `appsettings.Local.json`, "tengo un problema para hacer pagos con la tarjeta" devuelve fragmentos con ids `KB-xx`.
 
-- [ ] 3.1 Failing test — result: ________
-- [ ] 3.2 Implementation — files: ________ (`IRetriever`, `RetrievedChunk`, `RagMcp.Pinecone`)
-- [ ] 3.3 Passing test — result: ________
+- [x] 3.1 Failing test — result: FAILED: `error CS0246: The type or namespace name 'RetrievedChunk' / 'IRetriever' / 'PineconeRetriever' could not be found` (compilación roja, los tipos no existían)
+- [x] 3.2 Implementation — files: `src/RagMcp.Core/{Retrieval.cs,RagMcpOptions.cs}`, `src/RagMcp.Pinecone/{RagMcp.Pinecone.csproj,PineconeHttp.cs,PineconeRetriever.cs}`, `src/RagMcp.Server/{BuscarGuiasTool.cs,Program.cs,RagMcp.Server.csproj}`, `tests/RagMcp.Tests/{PineconeRetrieverTests.cs,BuscarGuiasTests.cs,ServerSmokeTests.cs,TestServer.cs,StubHandler.cs,RagMcp.Tests.csproj}`, `RagMcp.sln`. La prueba del esqueleto (respuesta fija) se reemplazó por `BuscarGuiasTests`, porque la herramienta ya no devuelve el texto fijo.
+- [x] 3.3 Passing test — result: `Passed! Failed: 0, Passed: 8, Total: 8` (net8.0). Además, el proceso real lanzado desde otra carpeta llega a Pinecone y responde `401 Missing api-key header` sin clave: el cableado de configuración e inyección funciona.
 - [ ] 3.4 Developer approval
 
 ## Phase 4 — Sin resultados relevantes pasa a un agente humano (covers SP-1)

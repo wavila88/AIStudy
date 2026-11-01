@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RagMcp.Core\RagMcp.Core.csproj" />
+    <ProjectReference Include="..\RagMcp.Pinecone\RagMcp.Pinecone.csproj" />
   </ItemGroup>
 
   <!-- La configuración viaja junto al ejecutable; la local (con claves) nunca se versiona. -->
